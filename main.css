@@ -8,6 +8,10 @@ body {
   width: 440px;
   height: 440px;
 }
+.main_wrapper {
+  width: 700px;
+  height: 700px;
+}
 .button {
   width: calc(25% - 1px);
   height: calc(25% - 1px);
@@ -58,4 +62,8 @@ p {
   display: flex;
   justify-content: center;
   margin: 0px;
+}
+.previous_calcs {
+  height: 100%;
+  width: 100%;
 }
