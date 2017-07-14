@@ -17,13 +17,21 @@ body {
 }
 .button_op {
   background-color: rgb(117, 175, 106);
-  color: rgb(50,76,45);
+  color: rgb(50, 76, 45);
+}
+.button_op_sqrt {
+  background-color: rgb(117, 175, 106);
+  color: rgb(50, 76, 45);
+}
+.button_op_mod {
+  background-color: rgb(117, 175, 106);
+  color: rgb(50, 76, 45);
 }
 button {
   flex-grow: 1;
   flex-shrink: 1;
   background-color: rgb(81, 163, 64);
-  color: rgb(228,240,225);
+  color: rgb(228, 240, 225);
   padding: 0px;
   font-size: 2em;
   align-content: center;
@@ -44,6 +52,10 @@ button {
 p {
   width: 100%;
 }
-.answer {
-  viewport stuff here;
+.button_spc {
+  width: calc(50% - 1px);
+  height: calc(25% - 1px);
+  display: flex;
+  justify-content: center;
+  margin: 0px;
 }
