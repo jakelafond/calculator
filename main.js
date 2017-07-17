@@ -3,14 +3,15 @@ console.log('test stuff');
 // ---- need to select buttons
 
 var numButtons = document.querySelectorAll('.button_num');
-var tempHold = '';
 var viewer = document.querySelector('#answer');
 var operator = document.querySelectorAll('.button_op');
-var calculate = document.querySelector('.button_fin');
-var clear = document.querySelector('.clear');
-var specialMod = document.querySelector('.button_op_mod');
-var specialSqrt = document.querySelector('.button_op_sqrt');
+var calculate = document.querySelector('#equal');
+var clear = document.querySelector('#clear');
+var multiply = document.querySelector('#x');
+var specialMod = document.querySelector('#mod');
+var specialSqrt = document.querySelector('#sqrt');
 var prvCalcs = document.querySelector('.previous_calcs');
+var tempHold = '';
 
 // build event listeners for number buttons
 for (let i = 0; i < numButtons.length; i++) {
@@ -42,6 +43,12 @@ specialMod.addEventListener('click', () => {
 //event listener for sqrt
 specialSqrt.addEventListener('click', () => {
   let content = 'sqrt';
+  tempHold += content;
+  viewer.textContent = tempHold;
+});
+
+multiply.addEventListener('click', () => {
+  let content = '*';
   tempHold += content;
   viewer.textContent = tempHold;
 });

@@ -39,6 +39,7 @@ button {
   padding: 0px;
   font-size: 2em;
   align-content: center;
+  font-weight: 300;
 }
 .view {
   width: calc(75% - 1px);
