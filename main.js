@@ -1,6 +1,6 @@
 console.log('test stuff');
 
-// ---- need to select buttons
+// ---- need to select stuff
 
 var numButtons = document.querySelectorAll('.button_num');
 var viewer = document.querySelector('#answer');
@@ -11,11 +11,14 @@ var multiply = document.querySelector('#x');
 var specialMod = document.querySelector('#mod');
 var specialSqrt = document.querySelector('#sqrt');
 var prvCalcs = document.querySelector('.previous_calcs');
+
+//empty variables for use later
 var tempHold = '';
 var number = '';
 var wholeCalc = [];
-var newWholeCalc = [];
 var pemdasVal;
+
+//convert operator strings to real operators
 var operators = {
   '+': function(a, b) {
     return a + b;
@@ -75,6 +78,7 @@ specialSqrt.addEventListener('click', () => {
   number = '';
 });
 
+//event listener for multiply because of the X
 multiply.addEventListener('click', () => {
   let content = '*';
   tempHold += content;
@@ -85,23 +89,69 @@ multiply.addEventListener('click', () => {
 
 calculate.addEventListener('click', () => {
   wholeCalc.push(Number(number));
+  //sqrt first since it is ()
+  while (wholeCalc.includes('sqrt')) {
+    var sqrtIndex = wholeCalc.indexOf('sqrt');
+    pemdasVal = Math.sqrt(Number(wholeCalc[sqrtIndex - 1]) * Number(wholeCalc[sqrtIndex + 1]));
+    wholeCalc.splice(sqrtIndex - 1, 3, pemdasVal);
+  }
+
+  //next is multiply, divide, remainder operators
   while (wholeCalc.includes('*') || wholeCalc.includes('/') || wholeCalc.includes('%')) {
     var multIndex = wholeCalc.indexOf('*');
     var divIndex = wholeCalc.indexOf('/');
     var modIndex = wholeCalc.indexOf('%');
-    if (multIndex > divIndex && multIndex > modIndex && divIndex != -1 && modIndex != -1) {
-      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
-      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
-    } else if (multIndex < divIndex && divIndex != -1) {
-      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
-      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
-    } else if (divIndex > multIndex && multIndex != -1) {
+
+    // if there is only one: remainder, multiplication or division operator
+    if (multIndex != -1 && divIndex === -1 && modIndex === -1 ) {
       pemdasVal = operators['*'](wholeCalc[multIndex - 1], wholeCalc[multIndex + 1]);
       wholeCalc.splice(multIndex - 1, 3, pemdasVal);
-    } else if (divIndex < multIndex && multIndex != -1) {
+    } else if (divIndex != -1 && multIndex === -1 && modIndex === -1) {
+      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
+      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
+    } else if (modIndex != -1 && divIndex === -1 && multIndex === -1) {
+      pemdasVal = operators['%'](wholeCalc[modIndex - 1], wholeCalc[modIndex + 1]);
+      wholeCalc.splice(modIndex - 1, 3, pemdasVal);
+    }
+
+    //if there are two of the following: remainder, multiplication or division operators
+    if (divIndex < multIndex && modIndex === -1 && divIndex != -1 && multIndex != -1) {
+      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
+      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
+    } else if (multIndex < divIndex && modIndex === -1 && divIndex != -1 && multIndex != -1 ) {
       pemdasVal = operators['*'](wholeCalc[multIndex - 1], wholeCalc[multIndex + 1]);
       wholeCalc.splice(multIndex - 1, 3, pemdasVal);
     }
+
+    else if (modIndex < divIndex && multIndex === -1 && divIndex != -1 && modIndex != -1 ) {
+      pemdasVal = operators['%'](wholeCalc[modIndex - 1], wholeCalc[modIndex + 1]);
+      wholeCalc.splice(modIndex - 1, 3, pemdasVal);
+    } else if (divIndex < modIndex && multIndex === -1 && divIndex != -1 && modIndex != -1 ) {
+      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
+      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
+    }
+
+    else if (modIndex < multIndex && divIndex === -1 && multIndex != -1 && modIndex != -1 ) {
+      pemdasVal = operators['%'](wholeCalc[modIndex - 1], wholeCalc[modIndex + 1]);
+      wholeCalc.splice(modIndex - 1, 3, pemdasVal);
+    } else if (multIndex < modIndex && divIndex === -1 && multIndex != -1 && modIndex != -1 ) {
+      pemdasVal = operators['*'](wholeCalc[multIndex - 1], wholeCalc[multIndex + 1]);
+      wholeCalc.splice(multIndex - 1, 3, pemdasVal);
+    }
+
+    //if there are all three types: remainder, multiplication and division operators
+    if (multIndex < divIndex && multIndex < modIndex && multIndex != -1 && divIndex != -1 && modIndex != -1){
+      pemdasVal = operators['*'](wholeCalc[multIndex - 1], wholeCalc[multIndex + 1]);
+      wholeCalc.splice(multIndex - 1, 3, pemdasVal);
+    } else if (divIndex < multIndex && divIndex < modIndex && multIndex != -1 && divIndex != -1 && modIndex != -1){
+      pemdasVal = operators['/'](wholeCalc[divIndex - 1], wholeCalc[divIndex + 1]);
+      wholeCalc.splice(divIndex - 1, 3, pemdasVal);
+    } else if (modIndex < multIndex && modIndex < divIndex && multIndex != -1 && divIndex != -1 && modIndex != -1){
+      pemdasVal = operators['%'](wholeCalc[modIndex - 1], wholeCalc[modIndex + 1]);
+      wholeCalc.splice(modIndex - 1, 3, pemdasVal);
+    }
+
+
   }
   while (wholeCalc.includes('+') || wholeCalc.includes('-')) {
     var addIndex = wholeCalc.indexOf('+');
