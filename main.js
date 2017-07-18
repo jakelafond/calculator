@@ -89,7 +89,7 @@ multiply.addEventListener('click', () => {
 
 calculate.addEventListener('click', () => {
   wholeCalc.push(Number(number));
-  //sqrt first since it is ()
+  //sqrt first since it is (), to use sqrt you do number1, sqrt, number2 in order on the calculator
   while (wholeCalc.includes('sqrt')) {
     var sqrtIndex = wholeCalc.indexOf('sqrt');
     pemdasVal = Math.sqrt(Number(wholeCalc[sqrtIndex - 1]) * Number(wholeCalc[sqrtIndex + 1]));
